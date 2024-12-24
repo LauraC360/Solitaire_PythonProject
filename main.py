@@ -15,6 +15,7 @@ pygame.init()
 
 SCREEN_WIDTH = 1440
 SCREEN_HEIGHT = 800
+display_dimensions = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Solitaire')
@@ -34,6 +35,16 @@ FPS = 60
 MAIN_MENU = 'main_menu'
 GAME = 'game'
 current_state = MAIN_MENU
+
+# Create a play button surface with per-pixel alpha
+play_button_surface = pygame.Surface((200, 70), pygame.SRCALPHA)
+play_button_rect = play_button_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 120))
+play_button = pygame.Rect(play_button_rect.topleft, play_button_rect.size)
+
+# Create a quit button surface with per-pixel alpha
+quit_button_surface = pygame.Surface((200, 70), pygame.SRCALPHA)
+quit_button_rect = quit_button_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 230))
+quit_button = pygame.Rect(quit_button_rect.topleft, quit_button_rect.size)
 
 # Colors
 border_color = (255, 255, 255)
@@ -55,10 +66,38 @@ def main_menu():
     title_text = title_font.render('Solitaire', True, text_color)
     screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 330))  # Lower y-coordinate centered
 
+    # Play button
+    if play_button_rect.collidepoint(mouse_pos):
+        play_button_surface.fill(hover_color)  # Fill with hover color
+    else:
+        play_button_surface.fill((0, 0, 0, 50))  # Fill with transparent color
+
+    pygame.draw.rect(play_button_surface, border_color, play_button_surface.get_rect(), 2)  # Draw the border
+    text = font.render('Play', True, text_color)
+    play_button_surface.blit(text, (50, 10))
+
+    screen.blit(play_button_surface, play_button_rect.topleft)
+
+    # Quit button
+    if quit_button_rect.collidepoint(mouse_pos):
+        quit_button_surface.fill(hover_color)  # Fill with hover color
+    else:
+        quit_button_surface.fill((0, 0, 0, 50))  # Fill with transparent color
+    pygame.draw.rect(quit_button_surface, border_color, quit_button_surface.get_rect(), 2)  # Draw the border
+    text = font.render('Quit', True, text_color)
+    quit_button_surface.blit(text, (50, 10))
+    screen.blit(quit_button_surface, quit_button_rect.topleft)
+
     # Main menu logic : for buttons and text
     for ev in pygame.event.get():
         if ev.type == pygame.QUIT:
             return False
+        if ev.type == pygame.MOUSEBUTTONDOWN:
+            if play_button.collidepoint(ev.pos):
+                global current_state
+                current_state = GAME
+            elif quit_button.collidepoint(ev.pos):
+                return False
     return True
 
 # Main Game Screen
@@ -70,7 +109,6 @@ def game():
         if ev.type == pygame.QUIT:
             return False
     return True
-
 
 # Main loop
 run = True
