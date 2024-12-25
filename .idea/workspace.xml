@@ -2,109 +2,40 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="80f48668-0cb8-4e8a-944d-88e3bf4dc39c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Solitaire_Py.iml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/deck.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deck.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/10_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/10_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/10_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/10_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/2_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/2_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/2_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/2_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/3_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/3_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/3_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/3_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/4_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/4_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/4_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/4_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/5_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/5_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/5_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/5_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/6_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/6_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/6_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/6_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/7_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/7_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/7_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/7_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/8_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/8_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/8_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/8_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/9_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/9_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/9_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/9_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/ace_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/ace_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/ace_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/ace_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/ace_of_spades2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/black_joker.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/card_back.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/jack_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/jack_of_clubs2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/jack_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/jack_of_diamonds2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/jack_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/jack_of_hearts2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/jack_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/jack_of_spades2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/king_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/king_of_clubs2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/king_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/king_of_diamonds2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/king_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/king_of_hearts2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/king_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/king_of_spades2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/queen_of_clubs.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/queen_of_clubs2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/queen_of_diamonds.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/queen_of_diamonds2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/queen_of_hearts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/queen_of_hearts2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/queen_of_spades.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/queen_of_spades2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/cards/red_joker.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/green_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/green_bkg.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/photorealistic-casino-lifestyle.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "LauraC360"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LauraC360&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/LauraC360/Solitaire_PythonProject.git",
-    "accountId": "77d088d4-5dcd-4526-acca-fae08f7c55eb"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/LauraC360/Solitaire_PythonProject.git&quot;,
+    &quot;accountId&quot;: &quot;77d088d4-5dcd-4526-acca-fae08f7c55eb&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2qhpHlefcCn9IKQWpY8zmXXKRYf" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -112,6 +43,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
