@@ -9,6 +9,9 @@ Created: 22-12-2024
 
 # Pygame Library
 import pygame
+from deck import Deck
+from card import Card
+from stack import Stack
 
 # Initialize Pygame
 pygame.init()
@@ -23,8 +26,6 @@ pygame.display.set_caption('Solitaire')
 # Loading background image for main menu
 background_image = pygame.image.load('resources/images/photorealistic-casino-lifestyle.jpg')
 background_image_game = pygame.image.load('resources/images/green_background.png')
-
-player = pygame.Rect((300, 250, 50, 50))
 
 # Setting frame rate
 clock = pygame.time.Clock()
@@ -100,6 +101,26 @@ def main_menu():
                 return False
     return True
 
+# Create the deck
+card_size = (100, 150)
+
+# Load card images and resize them to 100x150
+def load_and_resize_image(path, size):
+    image = pygame.image.load(path)
+    return pygame.transform.scale(image, size)
+
+# Load card images
+card_images = {
+    'hearts': {rank: load_and_resize_image(f'resources/images/cards/{rank}_of_hearts.png', card_size) for rank in ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']},
+    'diamonds': {rank: load_and_resize_image(f'resources/images/cards/{rank}_of_diamonds.png', card_size) for rank in ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']},
+    'clubs': {rank: load_and_resize_image(f'resources/images/cards/{rank}_of_clubs.png', card_size) for rank in ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']},
+    'spades': {rank: load_and_resize_image(f'resources/images/cards/{rank}_of_spades.png', card_size) for rank in ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']},
+    'card_back': load_and_resize_image('resources/images/cards/card_back.png', card_size)
+}
+
+deck = Deck((0,0), card_images, card_size)
+deck.setup_stacks(display_dimensions)
+
 # Game Board
 def game_board():
 
@@ -131,35 +152,71 @@ def game_board():
     for rect in card_places:
         pygame.draw.rect(screen, card_place_color, rect, 2, border_radius=10)  # Draw the border
 
-
-# Main Game Screen
 def game():
     screen.blit(background_image_game, (0, 0))
-
-    # Game elements
     game_board()
-
-    # Buttons
-
-    # Game logic
-    for ev in pygame.event.get():
-        if ev.type == pygame.QUIT:
-            return False
+    deck.draw(screen)
+    handle_events(deck)
     return True
 
+# def handle_events(deck):
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             exit()
+#         elif event.type == pygame.MOUSEBUTTONDOWN:
+#             mouse_position = pygame.mouse.get_pos()
+#             for stack in deck.stacks:
+#                 for card in stack.cards[::-1]:
+#                     if card.check_if_clicked(mouse_position):
+#                         card.start_drag(mouse_position)
+#                         deck.dragged_card = card
+#                         stack.remove_card(card)
+#                         break
+#         elif event.type == pygame.MOUSEBUTTONUP:
+#             if deck.dragged_card:
+#                 deck.stop_dragging(pygame.mouse.get_pos())
+#                 deck.dragged_card.stop_drag()
+#                 deck.dragged_card = None
+#         elif event.type == pygame.MOUSEMOTION:
+#             if deck.dragged_card:
+#                 deck.dragged_card.update_position(pygame.mouse.get_pos())
 
-# Main loop
+def handle_events(deck):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_position = pygame.mouse.get_pos()
+            # Only check for stock click if the click is within the stock stack area
+            if deck.stock_stack.rect.collidepoint(mouse_position):
+                deck.check_for_stock_click(mouse_position)
+            #deck.check_for_stock_click(mouse_position)
+            for stack in deck.stacks:
+                for card in stack.cards[::-1]:
+                    if card.check_if_clicked(mouse_position):
+                        card.start_drag(mouse_position)
+                        deck.dragged_card = card
+                        stack.remove_card(card)
+                        #stack.remove_card(card)
+                        break
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if deck.dragged_card:
+                deck.stop_dragging(pygame.mouse.get_pos())
+                deck.dragged_card.stop_drag()
+                deck.dragged_card = None
+        elif event.type == pygame.MOUSEMOTION:
+            if deck.dragged_card:
+                deck.dragged_card.update_position(pygame.mouse.get_pos())
+
 run = True
 while run:
-
-    # Set frame rate
     clock.tick(FPS)
-
     if current_state == MAIN_MENU:
         run = main_menu()
     elif current_state == GAME:
         run = game()
-
-    pygame.display.update()
+    pygame.display.flip()
 
 pygame.quit()
