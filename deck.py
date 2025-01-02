@@ -26,6 +26,7 @@ class Deck(object):
         self.stacks = []
         self.dragged_card = None
         self.stock_stack = None
+        self.dragged_cards = None
 
     def create_deck(self):
         """Create a deck of cards"""
@@ -87,30 +88,58 @@ class Deck(object):
             card.face_up = False
             self.stock_stack.add_card(card)
 
+    # def draw(self, screen):
+    #     """Draw the card deck and stacks on the screen"""
+    #     for stack in self.stacks:
+    #         stack.draw(screen)
+    #
+    #     # Draw the dragged card on top, if any
+    #     if self.dragged_card:
+    #         screen.blit(
+    #             self.dragged_card.image if self.dragged_card.face_up else self.dragged_card.back_image,
+    #             self.dragged_card.position
+    #         )
+
     def draw(self, screen):
         """Draw the card deck and stacks on the screen"""
         for stack in self.stacks:
             stack.draw(screen)
 
-        # Draw the dragged card on top, if any
-        if self.dragged_card:
-            screen.blit(
-                self.dragged_card.image if self.dragged_card.face_up else self.dragged_card.back_image,
-                self.dragged_card.position
-            )
+        # Draw the dragged cards on top, if any
+        if self.dragged_cards:
+            for card in self.dragged_cards:
+                screen.blit(
+                    card.image if card.face_up else card.back_image,
+                    card.position
+                )
+
+    # def stop_dragging(self, mouse_position):
+    #     """Stop dragging the card"""
+    #     for stack in self.stacks:
+    #         if stack.contains_card(self.dragged_card) and stack.can_add_card(self.dragged_card):
+    #             stack.add_card(self.dragged_card)
+    #             if self.dragged_card.original_stack.cards:
+    #                 self.dragged_card.original_stack.cards[-1].face_up = True
+    #             return
+    #
+    #     # If no valid stack, return to the original stack
+    #     self.dragged_card.position = self.dragged_card.original_stack.get_next_card_position()
+    #     self.dragged_card.original_stack.add_card(self.dragged_card)
 
     def stop_dragging(self, mouse_position):
-        """Stop dragging the card"""
+        """Stop dragging the cards"""
         for stack in self.stacks:
-            if stack.contains_card(self.dragged_card) and stack.can_add_card(self.dragged_card):
-                stack.add_card(self.dragged_card)
-                if self.dragged_card.original_stack.cards:
-                    self.dragged_card.original_stack.cards[-1].face_up = True
+            if stack.contains_card(self.dragged_cards[0]) and stack.can_add_card(self.dragged_cards[0]):
+                for card in self.dragged_cards:
+                    stack.add_card(card)
+                if self.dragged_cards[0].original_stack.cards:
+                    self.dragged_cards[0].original_stack.cards[-1].face_up = True
                 return
 
         # If no valid stack, return to the original stack
-        self.dragged_card.position = self.dragged_card.original_stack.get_next_card_position()
-        self.dragged_card.original_stack.add_card(self.dragged_card)
+        for card in self.dragged_cards:
+            card.position = card.original_stack.get_next_card_position()
+            card.original_stack.add_card(card)
 
     def check_for_stock_click(self, mouse_position):
         """Check if the stock stack was clicked"""

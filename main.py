@@ -182,6 +182,96 @@ def game():
 #             if deck.dragged_card:
 #                 deck.dragged_card.update_position(pygame.mouse.get_pos())
 
+# def handle_events(deck):
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             exit()
+#         elif event.type == pygame.MOUSEBUTTONDOWN:
+#             mouse_position = pygame.mouse.get_pos()
+#             # Only check for stock click if the click is within the stock stack area
+#             if deck.stock_stack.rect.collidepoint(mouse_position):
+#                 deck.check_for_stock_click(mouse_position)
+#             #deck.check_for_stock_click(mouse_position)
+#             for stack in deck.stacks:
+#                 for card in stack.cards[::-1]:
+#                     if card.check_if_clicked(mouse_position):
+#                         card.start_drag(mouse_position)
+#                         deck.dragged_card = card
+#                         stack.remove_card(card)
+#                         #stack.remove_card(card)
+#                         break
+#         elif event.type == pygame.MOUSEBUTTONUP:
+#             if deck.dragged_card:
+#                 deck.stop_dragging(pygame.mouse.get_pos())
+#                 deck.dragged_card.stop_drag()
+#                 deck.dragged_card = None
+#         elif event.type == pygame.MOUSEMOTION:
+#             if deck.dragged_card:
+#                 deck.dragged_card.update_position(pygame.mouse.get_pos())
+
+
+# def handle_events(deck):
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             exit()
+#         elif event.type == pygame.MOUSEBUTTONDOWN:
+#             mouse_position = pygame.mouse.get_pos()
+#             # Only check for stock click if the click is within the stock stack area
+#             if deck.stock_stack.rect.collidepoint(mouse_position):
+#                 deck.check_for_stock_click(mouse_position)
+#             for stack in deck.stacks:
+#                 for card in stack.cards[::-1]:
+#                     if card.check_if_clicked(mouse_position):
+#                         draggable_stack = card.get_draggable_stack()
+#                         for c in draggable_stack:
+#                             c.start_drag(mouse_position)
+#                         deck.dragged_cards = draggable_stack
+#                         stack.remove_cards(draggable_stack)
+#                         break
+#         elif event.type == pygame.MOUSEBUTTONUP:
+#             if deck.dragged_cards:
+#                 deck.stop_dragging(pygame.mouse.get_pos())
+#                 for card in deck.dragged_cards:
+#                     card.stop_drag()
+#                 deck.dragged_cards = None
+#         elif event.type == pygame.MOUSEMOTION:
+#             if deck.dragged_cards:
+#                 for card in deck.dragged_cards:
+#                     card.update_position(pygame.mouse.get_pos())
+
+
+# def handle_events(deck):
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             exit()
+#         elif event.type == pygame.MOUSEBUTTONDOWN:
+#             mouse_position = pygame.mouse.get_pos()
+#             if deck.stock_stack.rect.collidepoint(mouse_position):
+#                 deck.check_for_stock_click(mouse_position)
+#             for stack in deck.stacks:
+#                 for card in stack.cards[::-1]:
+#                     if card.check_if_clicked(mouse_position):
+#                         draggable_stack = card.get_draggable_stack()
+#                         for c in draggable_stack:
+#                             c.start_drag(mouse_position)
+#                         deck.dragged_cards = draggable_stack
+#                         stack.remove_cards(draggable_stack)
+#                         break
+#         elif event.type == pygame.MOUSEBUTTONUP:
+#             if deck.dragged_cards:
+#                 deck.stop_dragging(pygame.mouse.get_pos())
+#                 for card in deck.dragged_cards:
+#                     card.stop_drag()
+#                 deck.dragged_cards = None
+#         elif event.type == pygame.MOUSEMOTION:
+#             if deck.dragged_cards:
+#                 for card in deck.dragged_cards:
+#                     card.update_position(pygame.mouse.get_pos())
+
+
 def handle_events(deck):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -189,26 +279,27 @@ def handle_events(deck):
             exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_position = pygame.mouse.get_pos()
-            # Only check for stock click if the click is within the stock stack area
             if deck.stock_stack.rect.collidepoint(mouse_position):
                 deck.check_for_stock_click(mouse_position)
-            #deck.check_for_stock_click(mouse_position)
             for stack in deck.stacks:
                 for card in stack.cards[::-1]:
                     if card.check_if_clicked(mouse_position):
-                        card.start_drag(mouse_position)
-                        deck.dragged_card = card
-                        stack.remove_card(card)
-                        #stack.remove_card(card)
+                        draggable_stack = card.get_draggable_stack()
+                        for c in draggable_stack:
+                            c.start_drag(mouse_position)
+                        deck.dragged_cards = draggable_stack
+                        stack.remove_cards(draggable_stack)
                         break
         elif event.type == pygame.MOUSEBUTTONUP:
-            if deck.dragged_card:
+            if deck.dragged_cards:
                 deck.stop_dragging(pygame.mouse.get_pos())
-                deck.dragged_card.stop_drag()
-                deck.dragged_card = None
+                for card in deck.dragged_cards:
+                    card.stop_drag()
+                deck.dragged_cards = None
         elif event.type == pygame.MOUSEMOTION:
-            if deck.dragged_card:
-                deck.dragged_card.update_position(pygame.mouse.get_pos())
+            if deck.dragged_cards:
+                for card in deck.dragged_cards:
+                    card.update_position(pygame.mouse.get_pos())
 
 run = True
 while run:
