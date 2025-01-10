@@ -24,7 +24,9 @@ class Move:
             self.last_card_face_up_state = from_stack.cards[-len(cards) - 1].face_up
         else:
             self.last_card_face_up_state = None
-        # self.original_stacks = [card.stack for card in cards]
+
+        self.from_stack_face_up_state = [card.face_up for card in from_stack.cards]
+        self.to_stack_face_up_state = [card.face_up for card in to_stack.cards]
 
     def __str__(self):
         """Return a string representation of the move"""

@@ -6,6 +6,7 @@ Deck class for deck objects Script
 Author: Chiriac Laura-Florina
 Created: 25-12-2024
 """
+from math import remainder
 
 import pygame
 import random
@@ -121,25 +122,13 @@ class Deck(object):
                 card.face_up = True
                 card.position = position
                 move.from_stack.add_card(card)
-                # if card.stack.is_discard:
-                #     card.face_up = True
-                #     card.position = move.from_stack.position
-                #     #move.from_stack.add_card(card)
-                #     self.stacks[8].add_card(card)
-                #
-                #     logging.debug(f'Undo-ed a move from the discard stack')
-                # else:
-                #     card.face_up = True
-                #     card.position = position
-                #     move.from_stack.add_card(card)
-            # for card in move.cards:
-            #     card.stack = move.from_stack
-            #     move.from_stack.add_card(card)
 
             # Restore the face_up state if needed
+            remaining_cards_in_from_stack = len(move.from_stack.cards) - len(move.cards)
             if move.last_card_face_up_state is not None and len(move.from_stack.cards) > len(move.cards):
                 last_card_index = -len(move.cards) - 1
-                move.from_stack.cards[last_card_index].face_up = move.last_card_face_up_state
+                last_card = move.from_stack.cards[last_card_index]
+                last_card.face_up = move.from_stack_face_up_state[remaining_cards_in_from_stack - 1]
 
             # Restore the stock and discard stacks
             #self.stacks[7].cards = move.stock_state
