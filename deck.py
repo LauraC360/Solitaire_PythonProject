@@ -9,9 +9,16 @@ Created: 25-12-2024
 
 import pygame
 import random
+from history_manager import HistoryManager
+from move import Move
 from card import Card
 from stack import Stack
 from collections import namedtuple
+import logging
+
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 class Deck(object):
@@ -27,6 +34,7 @@ class Deck(object):
         self.dragged_card = None
         self.stock_stack = None
         self.dragged_cards = None
+        self.history_manager = HistoryManager()
 
     def create_deck(self):
         """Create a deck of cards"""
@@ -88,18 +96,6 @@ class Deck(object):
             card.face_up = False
             self.stock_stack.add_card(card)
 
-    # def draw(self, screen):
-    #     """Draw the card deck and stacks on the screen"""
-    #     for stack in self.stacks:
-    #         stack.draw(screen)
-    #
-    #     # Draw the dragged card on top, if any
-    #     if self.dragged_card:
-    #         screen.blit(
-    #             self.dragged_card.image if self.dragged_card.face_up else self.dragged_card.back_image,
-    #             self.dragged_card.position
-    #         )
-
     def draw(self, screen):
         """Draw the card deck and stacks on the screen"""
         for stack in self.stacks:
@@ -113,23 +109,81 @@ class Deck(object):
                     card.position
                 )
 
-    # def stop_dragging(self, mouse_position):
-    #     """Stop dragging the card"""
-    #     for stack in self.stacks:
-    #         if stack.contains_card(self.dragged_card) and stack.can_add_card(self.dragged_card):
-    #             stack.add_card(self.dragged_card)
-    #             if self.dragged_card.original_stack.cards:
-    #                 self.dragged_card.original_stack.cards[-1].face_up = True
-    #             return
-    #
-    #     # If no valid stack, return to the original stack
-    #     self.dragged_card.position = self.dragged_card.original_stack.get_next_card_position()
-    #     self.dragged_card.original_stack.add_card(self.dragged_card)
+    def undo_last_move(self):
+        """Undo the last move"""
+        logging.debug('Attempting to undo the last move')
+        move = self.history_manager.undo_move()
+        if move:
+            logging.debug(f'Undoing move: {move}')
+            move.to_stack.remove_cards(move.cards)
+            for card, position in zip(move.cards, move.positions):
+                card.stack = move.from_stack
+                card.face_up = True
+                card.position = position
+                move.from_stack.add_card(card)
+                # if card.stack.is_discard:
+                #     card.face_up = True
+                #     card.position = move.from_stack.position
+                #     #move.from_stack.add_card(card)
+                #     self.stacks[8].add_card(card)
+                #
+                #     logging.debug(f'Undo-ed a move from the discard stack')
+                # else:
+                #     card.face_up = True
+                #     card.position = position
+                #     move.from_stack.add_card(card)
+            # for card in move.cards:
+            #     card.stack = move.from_stack
+            #     move.from_stack.add_card(card)
+
+            # Restore the face_up state if needed
+            if move.last_card_face_up_state is not None and len(move.from_stack.cards) > len(move.cards):
+                last_card_index = -len(move.cards) - 1
+                move.from_stack.cards[last_card_index].face_up = move.last_card_face_up_state
+
+            # Restore the stock and discard stacks
+            #self.stacks[7].cards = move.stock_state
+            #self.stacks[8].cards = move.discard_state
+
+            # Ensure cards in the stock stack are face down
+            for card in self.stacks[7].cards:
+                card.face_up = False
+            # Ensure cards in the foundation stack are face up
+            for stack in self.stacks[9:]:
+                for card in stack.cards:
+                    card.face_up = True
+
+            # Ensure cards in the discard stack are face up
+            for card in self.stacks[8].cards:
+                card.face_up = True
+
+            # Redraw the screen to update the visual representation
+            #self.draw(pygame.display.get_surface())
+            logging.debug('Move undone successfully')
+
+        # Ensure the last card in the stack is face down if it was like that before the move
+        # if move.from_stack.cards:
+        #     move.from_stack.cards[-2].face_up = False
+        #     logging.debug('Move undone successfully')
+        else:
+            logging.debug('No moves to undo')
+            # move.from_stack.add_card(move.cards)
+            # move.card.position = move.from_stack.get_next_card_position()
 
     def stop_dragging(self, mouse_position):
         """Stop dragging the cards"""
         for stack in self.stacks:
             if stack.contains_card(self.dragged_cards[0]) and stack.can_add_card(self.dragged_cards[0]):
+                #move = Move(self.dragged_cards, self.dragged_cards[0].original_stack, stack)
+                move = Move(
+                    self.dragged_cards,
+                    self.dragged_cards[0].original_stack,
+                    stack,
+                    self.stock_stack.cards.copy(),
+                    self.stacks[8].cards.copy()
+                )
+                self.history_manager.record_move(move)
+
                 for card in self.dragged_cards:
                     stack.add_card(card)
                 if self.dragged_cards[0].original_stack.cards:
@@ -146,10 +200,31 @@ class Deck(object):
         stock_stack = self.stacks[7]
         discard_stack = self.stacks[8]
         if stock_stack.cards and stock_stack.cards[-1].check_if_clicked(mouse_position):
+            # Record the state of the stock and discard stacks
+            move = Move(
+                [stock_stack.cards[-1]],
+                stock_stack,
+                discard_stack,
+                self.stock_stack.cards.copy(),
+                self.stacks[8].cards.copy()
+            )
+            self.history_manager.record_move(move)
+
+            # Move the top card from the stock stack to the discard stack
             card = stock_stack.remove_card(stock_stack.cards[-1])
             card.face_up = True
             discard_stack.add_card(card)
         elif not stock_stack.cards:
+            # Record the stock reset as a move
+            move = Move(
+                discard_stack.cards.copy(),
+                discard_stack,
+                stock_stack,
+                self.stock_stack.cards.copy(),
+                self.stacks[8].cards.copy()
+            )
+            self.history_manager.record_move(move)
+
             # Reset the stock stack when empty
             while discard_stack.cards:
                 card = discard_stack.remove_card(discard_stack.cards[-1])

@@ -56,8 +56,10 @@ class Card(object):
 
     def get_draggable_stack(self):
         """Get all face-up cards in the stack starting from this card"""
-        if not self.face_up:
-            return []
+        #if not self.face_up:
+            #return []
+        if self.stack is None:
+            raise ValueError("Card is not in a stack")
         index = self.stack.cards.index(self)
         return self.stack.cards[index:]
 

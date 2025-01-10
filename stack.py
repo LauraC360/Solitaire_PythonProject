@@ -14,6 +14,8 @@ import pygame
 from card import Card
 import logging
 
+from history_manager import HistoryManager
+
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -34,7 +36,7 @@ class Stack:
             self.deck = 'foundation'
         else:
             self.deck = 'tableau'
-        self.highlight = False # Highlight attribute for valid drop zones
+        self.highlight = True # Highlight attribute for valid drop zones
         self.rect = pygame.Rect(position, (100, 150))  # Add rect attribute
 
     def contains_card(self, card):
@@ -45,8 +47,7 @@ class Stack:
 
     def add_card(self, card):
         """Add a card to the stack"""
-        """Add a card to the stack"""
-        logging.debug(f'Adding card {card.rank} of {card.suit} to stack at position {self.position}')
+        logging.debug(f'Adding card {card.rank} of {card.suit} to stack at position {self.position} with is_discard = {self.is_discard}')
         if self.is_discard or self.is_foundation:
             card.position = self.position
             card.face_up = True
@@ -81,6 +82,7 @@ class Stack:
             if card in self.cards:
                 self.cards.remove(card)
                 card.stack = None
+        return cards
 
     # def get_next_card_position(self):
     #     """Get the position of the next card in the stack"""

@@ -6,7 +6,7 @@ Solitaire Game Main Script with PEP 8 Documentation Style
 Author: Chiriac Laura-Florina
 Created: 22-12-2024
 """
-
+import email_validator
 # Pygame Library
 import pygame
 from deck import Deck
@@ -121,6 +121,11 @@ card_images = {
 deck = Deck((0,0), card_images, card_size)
 deck.setup_stacks(display_dimensions)
 
+# Create an undo button surface with per-pixel alpha
+undo_button_surface = pygame.Surface((100, 70), pygame.SRCALPHA)
+undo_button_rect = undo_button_surface.get_rect(center=(SCREEN_WIDTH // 2 - 600, SCREEN_HEIGHT // 2 - 300))
+undo_button = pygame.Rect(undo_button_rect.topleft, undo_button_rect.size)
+
 # Game Board
 def game_board():
 
@@ -152,6 +157,23 @@ def game_board():
     for rect in card_places:
         pygame.draw.rect(screen, card_place_color, rect, 2, border_radius=10)  # Draw the border
 
+    # Draw undo button
+    undo_hover_color = (50, 50, 50, 118)  # Semi-transparent hover color
+    undo_text_font = pygame.font.Font(None, 40)
+
+    if undo_button_rect.collidepoint(pygame.mouse.get_pos()):
+        undo_button_surface.fill(undo_hover_color) # Fill with hover color
+    else:
+        undo_button_surface.fill((0, 0, 0, 50)) # Fill with transparent color
+    pygame.draw.rect(undo_button_surface, border_color, undo_button_surface.get_rect(), 2) # Draw the border
+
+    # Render button text
+    text = undo_text_font.render('Undo', True, text_color)
+    text_rect = text.get_rect(center=(undo_button_surface.get_width() // 2, undo_button_surface.get_height() // 2))
+
+    undo_button_surface.blit(text, text_rect.topleft)
+    screen.blit(undo_button_surface, undo_button_rect.topleft)
+
 def game():
     screen.blit(background_image_game, (0, 0))
     game_board()
@@ -159,119 +181,7 @@ def game():
     handle_events(deck)
     return True
 
-# def handle_events(deck):
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#             exit()
-#         elif event.type == pygame.MOUSEBUTTONDOWN:
-#             mouse_position = pygame.mouse.get_pos()
-#             for stack in deck.stacks:
-#                 for card in stack.cards[::-1]:
-#                     if card.check_if_clicked(mouse_position):
-#                         card.start_drag(mouse_position)
-#                         deck.dragged_card = card
-#                         stack.remove_card(card)
-#                         break
-#         elif event.type == pygame.MOUSEBUTTONUP:
-#             if deck.dragged_card:
-#                 deck.stop_dragging(pygame.mouse.get_pos())
-#                 deck.dragged_card.stop_drag()
-#                 deck.dragged_card = None
-#         elif event.type == pygame.MOUSEMOTION:
-#             if deck.dragged_card:
-#                 deck.dragged_card.update_position(pygame.mouse.get_pos())
-
-# def handle_events(deck):
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#             exit()
-#         elif event.type == pygame.MOUSEBUTTONDOWN:
-#             mouse_position = pygame.mouse.get_pos()
-#             # Only check for stock click if the click is within the stock stack area
-#             if deck.stock_stack.rect.collidepoint(mouse_position):
-#                 deck.check_for_stock_click(mouse_position)
-#             #deck.check_for_stock_click(mouse_position)
-#             for stack in deck.stacks:
-#                 for card in stack.cards[::-1]:
-#                     if card.check_if_clicked(mouse_position):
-#                         card.start_drag(mouse_position)
-#                         deck.dragged_card = card
-#                         stack.remove_card(card)
-#                         #stack.remove_card(card)
-#                         break
-#         elif event.type == pygame.MOUSEBUTTONUP:
-#             if deck.dragged_card:
-#                 deck.stop_dragging(pygame.mouse.get_pos())
-#                 deck.dragged_card.stop_drag()
-#                 deck.dragged_card = None
-#         elif event.type == pygame.MOUSEMOTION:
-#             if deck.dragged_card:
-#                 deck.dragged_card.update_position(pygame.mouse.get_pos())
-
-
-# def handle_events(deck):
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#             exit()
-#         elif event.type == pygame.MOUSEBUTTONDOWN:
-#             mouse_position = pygame.mouse.get_pos()
-#             # Only check for stock click if the click is within the stock stack area
-#             if deck.stock_stack.rect.collidepoint(mouse_position):
-#                 deck.check_for_stock_click(mouse_position)
-#             for stack in deck.stacks:
-#                 for card in stack.cards[::-1]:
-#                     if card.check_if_clicked(mouse_position):
-#                         draggable_stack = card.get_draggable_stack()
-#                         for c in draggable_stack:
-#                             c.start_drag(mouse_position)
-#                         deck.dragged_cards = draggable_stack
-#                         stack.remove_cards(draggable_stack)
-#                         break
-#         elif event.type == pygame.MOUSEBUTTONUP:
-#             if deck.dragged_cards:
-#                 deck.stop_dragging(pygame.mouse.get_pos())
-#                 for card in deck.dragged_cards:
-#                     card.stop_drag()
-#                 deck.dragged_cards = None
-#         elif event.type == pygame.MOUSEMOTION:
-#             if deck.dragged_cards:
-#                 for card in deck.dragged_cards:
-#                     card.update_position(pygame.mouse.get_pos())
-
-
-# def handle_events(deck):
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#             exit()
-#         elif event.type == pygame.MOUSEBUTTONDOWN:
-#             mouse_position = pygame.mouse.get_pos()
-#             if deck.stock_stack.rect.collidepoint(mouse_position):
-#                 deck.check_for_stock_click(mouse_position)
-#             for stack in deck.stacks:
-#                 for card in stack.cards[::-1]:
-#                     if card.check_if_clicked(mouse_position):
-#                         draggable_stack = card.get_draggable_stack()
-#                         for c in draggable_stack:
-#                             c.start_drag(mouse_position)
-#                         deck.dragged_cards = draggable_stack
-#                         stack.remove_cards(draggable_stack)
-#                         break
-#         elif event.type == pygame.MOUSEBUTTONUP:
-#             if deck.dragged_cards:
-#                 deck.stop_dragging(pygame.mouse.get_pos())
-#                 for card in deck.dragged_cards:
-#                     card.stop_drag()
-#                 deck.dragged_cards = None
-#         elif event.type == pygame.MOUSEMOTION:
-#             if deck.dragged_cards:
-#                 for card in deck.dragged_cards:
-#                     card.update_position(pygame.mouse.get_pos())
-
-
+# Handle events function for adding the game logic to the game
 def handle_events(deck):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -279,6 +189,8 @@ def handle_events(deck):
             exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_position = pygame.mouse.get_pos()
+            if undo_button.collidepoint(mouse_position):
+                deck.undo_last_move()
             if deck.stock_stack.rect.collidepoint(mouse_position):
                 deck.check_for_stock_click(mouse_position)
             for stack in deck.stacks:
