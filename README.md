@@ -1,6 +1,8 @@
 # Solitaire_PythonProject
 Chiriac Laura-Florina 3B3, Final project for Python Course
 
+## Description
+This project implements a Solitaire card game, designed to be played with a standard deck of 52 cards. The game follows the classic rules of Solitaire where the goal is to move all cards into the foundation piles, which are built in ascending order by suit, from Ace to King.
 
 ## Resources
 - [Python](https://www.python.org/)
